@@ -114,7 +114,7 @@ def brute_force(target_hash, algorithm, categorie, mode2, directory2,
 
         total_attempts = sum(len(chars) ** i for i in range(1, max_length + 1))
 
-        pbar = tqdm(total=total_attempts, desc="Bruteforce in progress", ncols=200)
+        pbar = tqdm(total=total_attempts, desc="Bruteforce in progress", ncols=150)
 
         for length in range(1, max_length + 1):
             for attempt in itertools.product(chars, repeat=length):

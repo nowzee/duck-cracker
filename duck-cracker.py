@@ -52,6 +52,8 @@ def load_wordlist(filename, buffer_size=2048 * 2048):
 
 def dictionary(target_hash, word_list, algorithm, categorie, mode2, directory2):
     if mode2 == "single":
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print(graffiti)
         print("Method : Dictionary\n")
         print(f"hash type : {algorithm}")
         print(f"{categorie} : {target_hash}\n")
@@ -59,7 +61,7 @@ def dictionary(target_hash, word_list, algorithm, categorie, mode2, directory2):
         pbar = tqdm(total=len(word_list), desc="Search in progress")
 
         for word in word_list:
-            if generate_hash(word.strip(), algorithm) == target_hash:
+            if generate_hash(word.strip(), algorithm) == target_hash.lower():
                 pbar.close()
                 return word
             pbar.update(1)
@@ -78,8 +80,10 @@ def dictionary(target_hash, word_list, algorithm, categorie, mode2, directory2):
         found_count = 0
         not_found_count = len(repertory)
 
-        print("\nMethod : Dictionary")
-        print(f"hash type : {algorithm}\n")
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print(graffiti)
+        print("Method : Dictionary\n")
+        print(f"hash type : {algorithm}")
 
         pbar = tqdm(total=len(word_list), desc="currently researching")
         pbar.set_postfix(found=f"{found_count}", not_found=f"{not_found_count}")
@@ -106,7 +110,8 @@ def brute_force(target_hash, algorithm, categorie, mode2, directory2,
     max_length = int(input("define a max length : "))
 
     if mode2 == "single":
-
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print(graffiti)
         print("Method : Brute-Force\n")
         print(f"Max length : {max_length}")
         print(f"hash type : {algorithm}")
@@ -121,7 +126,7 @@ def brute_force(target_hash, algorithm, categorie, mode2, directory2,
                 password = ''.join(attempt)
                 pbar.set_postfix(currentpassword=f"{password}")
                 current_hash = generate_hash(password, algorithm)
-                if current_hash == target_hash:
+                if current_hash == target_hash.lower():
                     pbar.close()
                     return password
                 pbar.update(1)
@@ -130,6 +135,12 @@ def brute_force(target_hash, algorithm, categorie, mode2, directory2,
         return None
 
     elif mode2 == "multi":
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print(graffiti)
+        print("Method : Brute-Force\n")
+        print(f"Max length : {max_length}")
+        print(f"hash type : {algorithm}")
+        
         with open(directory2, "r") as hash_file:
             repertory = [line.strip() for line in hash_file]
 
@@ -204,7 +215,10 @@ def choices(mode, mode2, categorie, algorithm, passwordlists, repertory):
                 elif mode2 == "multi":
                     target_hash = None
                     found_word = brute_force(target_hash, algorithm, categorie, mode2, repertory)
+                    os.system('cls' if os.name == 'nt' else 'clear')
+                    print(graffiti)
                     print("Method : Brute-force\n")
+                    print(f"hash type : {algorithm}")
                     for hashe, word in found_word.items():
                         if word:
                             print(f"{hashe} : {word}")
@@ -229,7 +243,10 @@ def choices(mode, mode2, categorie, algorithm, passwordlists, repertory):
                 elif mode2 == "multi":
                     target_hash = None
                     found_word = dictionary(target_hash, word_list, algorithm, categorie, mode2, repertory)
-                    print("\n")
+                    os.system('cls' if os.name == 'nt' else 'clear')
+                    print(graffiti)
+                    print("Method : dictionary\n")
+                    print(f"hash type : {algorithm}")
                     for hashe, word in found_word.items():
                         if word:
                             print(f"{hashe} : {word}")

@@ -35,7 +35,7 @@ def load_wordlist(filename, buffer_size=2048 * 2048):
     words = []
 
     file_size = os.path.getsize(filename)
-    progress = tqdm(total=file_size, desc="dictionary loading", ncols=100)
+    progress = tqdm(total=file_size, desc="dictionary loading")
 
     with open(filename, 'r', encoding='utf-8', errors='ignore') as file:
         while True:
@@ -56,7 +56,7 @@ def dictionary(target_hash, word_list, algorithm, categorie, mode2, directory2):
         print(f"hash type : {algorithm}")
         print(f"{categorie} : {target_hash}\n")
 
-        pbar = tqdm(total=len(word_list), desc="Search in progress", ncols=100)
+        pbar = tqdm(total=len(word_list), desc="Search in progress")
 
         for word in word_list:
             if generate_hash(word.strip(), algorithm) == target_hash:
@@ -81,7 +81,7 @@ def dictionary(target_hash, word_list, algorithm, categorie, mode2, directory2):
         print("\nMethod : Dictionary")
         print(f"hash type : {algorithm}\n")
 
-        pbar = tqdm(total=len(word_list), desc="currently researching", ncols=150)
+        pbar = tqdm(total=len(word_list), desc="currently researching")
         pbar.set_postfix(found=f"{found_count}", not_found=f"{not_found_count}")
 
         for word in word_list:
@@ -114,7 +114,7 @@ def brute_force(target_hash, algorithm, categorie, mode2, directory2,
 
         total_attempts = sum(len(chars) ** i for i in range(1, max_length + 1))
 
-        pbar = tqdm(total=total_attempts, desc="Bruteforce in progress", ncols=150)
+        pbar = tqdm(total=total_attempts, desc="Bruteforce in progress")
 
         for length in range(1, max_length + 1):
             for attempt in itertools.product(chars, repeat=length):
@@ -140,7 +140,7 @@ def brute_force(target_hash, algorithm, categorie, mode2, directory2,
 
         total_attempts = sum(len(chars) ** i for i in range(1, max_length + 1))
 
-        pbar = tqdm(total=total_attempts, desc="Bruteforce in progress", ncols=150)
+        pbar = tqdm(total=total_attempts, desc="Bruteforce in progress")
         pbar.set_postfix(found=f"{found_count}", not_found=f"{not_found_count}")
 
         for length in range(1, max_length + 1):
@@ -166,14 +166,31 @@ def brute_force(target_hash, algorithm, categorie, mode2, directory2,
 
 
 def choices(mode, mode2, categorie, algorithm, passwordlists, repertory):
+    global target_hash
     try:
         if categorie == "hash":
             os.system('cls' if os.name == 'nt' else 'clear')
             print(graffiti)
+            if mode2 == "single":
+                target_hash = input("Enter the hash to search: ")
+
+            if algorithm == "Automatically":
+                if len(target_hash) == 32:
+                    algorithm = "md5"
+                elif len(target_hash) == 40:
+                    algorithm = "sha1"
+                elif len(target_hash) == 56:
+                    algorithm = "sha224"
+                elif len(target_hash) == 64:
+                    algorithm = "sha256"
+                elif len(target_hash) == 96:
+                    algorithm = "sha384"
+                elif len(target_hash) == 128:
+                    algorithm = "sha512"
+
             if mode == "brute-force":
 
                 if mode2 == "single":
-                    target_hash = input("Enter the hash to search: ")
                     found_word = brute_force(target_hash, algorithm, categorie, mode2, repertory)
                     if found_word:
                         os.system('cls' if os.name == 'nt' else 'clear')
@@ -183,7 +200,7 @@ def choices(mode, mode2, categorie, algorithm, passwordlists, repertory):
                         print(f"hash type : {algorithm}")
                         print(f"found : {found_word.strip()}")
                     else:
-                        print("\nnot found in this list.")
+                        print("\nnot found.")
                 elif mode2 == "multi":
                     target_hash = None
                     found_word = brute_force(target_hash, algorithm, categorie, mode2, repertory)
@@ -197,7 +214,6 @@ def choices(mode, mode2, categorie, algorithm, passwordlists, repertory):
                 word_list = load_wordlist(passwordlists)
 
                 if mode2 == "single":
-                    target_hash = input("Enter the hash to search for : ")
                     found_word = dictionary(target_hash, word_list, algorithm, categorie, mode2, repertory)
                     if found_word:
                         os.system('cls' if os.name == 'nt' else 'clear')
@@ -254,6 +270,7 @@ def settings():
 
         if categorie == "2":
             print("Select hash type :")
+            print("0: Automatically search ")
             print("1: MD5")
             print("2: SHA-1")
             print("3: SHA-256")
@@ -265,6 +282,8 @@ def settings():
 
             if types == "1":
                 algorithm = "md5"
+            elif types == "0":
+                algorithm = "Automatically"
             elif types == "2":
                 algorithm = "sha1"
             elif types == "3":

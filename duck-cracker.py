@@ -110,10 +110,9 @@ def settings():
             print("method not valid.")
             passwordlist = None
             return
-
-        print(graffiti)
-        os.system('cls' if os.name == 'nt' else 'clear')
-        module.hashcracker.choices(modes, mode2s, categories, algorithm, passwordlist, directory)
+        if categories == "hash":
+            os.system('cls' if os.name == 'nt' else 'clear')
+            module.hashcracker.choices(modes, mode2s, categories, algorithm, passwordlist, directory)
     except KeyboardInterrupt:
         exit()
 

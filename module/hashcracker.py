@@ -13,7 +13,6 @@ graffiti = r"""
      \/           \/     \/              \/           \/     \/     \/    \/       
     """
 
-
 def generate_hash(input_string, algorithm):
     if algorithm == "md5":
         return hashlib.md5(input_string.encode()).hexdigest()
@@ -155,12 +154,6 @@ def brute_force(target_hash, algorithm, categorie, mode2, directory2,
         return None
 
     elif mode2 == "multi":
-        os.system('cls' if os.name == 'nt' else 'clear')
-        print(graffiti)
-        print("Method : Brute-Force\n")
-        print(f"Max length : {max_length}")
-        print(f"mode : {mode2}")
-        print(f"hash algorithm : {algorithm}")
 
         with open(directory2, "r") as hash_file:
             repertory = [line.strip() for line in hash_file]
@@ -185,6 +178,13 @@ def brute_force(target_hash, algorithm, categorie, mode2, directory2,
                 algorithm = "sha512"
             else:
                 raise ValueError(f"Longueur de hash non reconnue: {hash_length}")
+        
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print(graffiti)
+        print("Method : Brute-Force\n")
+        print(f"Max length : {max_length}")
+        print(f"mode : {mode2}")
+        print(f"hash algorithm : {algorithm}")
 
         found_count = 0
         not_found_count = len(repertory)

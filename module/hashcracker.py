@@ -74,7 +74,26 @@ def dictionary(target_hash, word_list, algorithm, categorie, mode2, directory2):
         with open(directory2, "r") as hash_file:
             repertory = [line.strip() for line in hash_file]
 
+        hash_lengths = {len(h) for h in repertory}
         results = {hashe.lower(): None for hashe in repertory}
+
+        if algorithm == "Automatically":
+            hash_length = hash_lengths.pop()
+
+            if hash_length == 32:
+                algorithm = "md5"
+            elif hash_length == 40:
+                algorithm = "sha1"
+            elif hash_length == 56:
+                algorithm = "sha224"
+            elif hash_length == 64:
+                algorithm = "sha256"
+            elif hash_length == 96:
+                algorithm = "sha384"
+            elif hash_length == 128:
+                algorithm = "sha512"
+            else:
+                raise ValueError(f"Longueur de hash non reconnue: {hash_length}")
 
         found_count = 0
         not_found_count = len(repertory)
@@ -146,7 +165,26 @@ def brute_force(target_hash, algorithm, categorie, mode2, directory2,
         with open(directory2, "r") as hash_file:
             repertory = [line.strip() for line in hash_file]
 
+        hash_lengths = {len(h) for h in repertory}
         results = {hashe.lower(): None for hashe in repertory}
+
+        if algorithm == "Automatically":
+            hash_length = hash_lengths.pop()
+
+            if hash_length == 32:
+                algorithm = "md5"
+            elif hash_length == 40:
+                algorithm = "sha1"
+            elif hash_length == 56:
+                algorithm = "sha224"
+            elif hash_length == 64:
+                algorithm = "sha256"
+            elif hash_length == 96:
+                algorithm = "sha384"
+            elif hash_length == 128:
+                algorithm = "sha512"
+            else:
+                raise ValueError(f"Longueur de hash non reconnue: {hash_length}")
 
         found_count = 0
         not_found_count = len(repertory)
@@ -187,20 +225,6 @@ def choices(mode, mode2, categorie, algorithm, passwordlists, repertory):
 
             if mode2 == "single":
                 target_hash = input("Enter the hash to search: ")
-
-            if algorithm == "Automatically":
-                if len(target_hash) == 32:
-                    algorithm = "md5"
-                elif len(target_hash) == 40:
-                    algorithm = "sha1"
-                elif len(target_hash) == 56:
-                    algorithm = "sha224"
-                elif len(target_hash) == 64:
-                    algorithm = "sha256"
-                elif len(target_hash) == 96:
-                    algorithm = "sha384"
-                elif len(target_hash) == 128:
-                    algorithm = "sha512"
 
             if mode == "brute-force":
 

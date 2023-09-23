@@ -1,6 +1,6 @@
 import os
-import argparse
 import module.hashcracker
+
 graffiti = r"""
     .___             __                                         __                 
   __| _/_ __   ____ |  | __           ________________    ____ |  | __ ___________ 
@@ -20,14 +20,11 @@ def settings():
 
         print(graffiti)
         print("catégories : ")
-        print("1: zip (do not work)")
-        print("2: hash")
+        print("1: hash")
 
         categorie = input("select your categorie : ")
 
         if categorie == "1":
-            categories = "zip"
-        elif categorie == "2":
             categories = "hash"
         else:
             print("categories not valid.")
@@ -115,7 +112,6 @@ def settings():
             module.hashcracker.choices(modes, mode2s, categories, algorithm, passwordlist, directory)
     except KeyboardInterrupt:
         exit()
-
 
 if __name__ == "__main__":
     settings()

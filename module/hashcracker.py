@@ -51,6 +51,25 @@ def load_wordlist(filename, buffer_size=2048 * 2048):
 
 def dictionary(target_hash, word_list, algorithm, categorie, mode2, directory2):
     if mode2 == "single":
+
+        if algorithm == "Automatically":
+            hash_length = len(target_hash)
+
+            if hash_length == 32:
+                algorithm = "md5"
+            elif hash_length == 40:
+                algorithm = "sha1"
+            elif hash_length == 56:
+                algorithm = "sha224"
+            elif hash_length == 64:
+                algorithm = "sha256"
+            elif hash_length == 96:
+                algorithm = "sha384"
+            elif hash_length == 128:
+                algorithm = "sha512"
+            else:
+                raise ValueError(f"Longueur de hash non reconnue: {hash_length}")
+
         os.system('cls' if os.name == 'nt' else 'clear')
         print(graffiti)
         print("Method : Dictionary\n")
@@ -128,6 +147,25 @@ def brute_force(target_hash, algorithm, categorie, mode2, directory2,
     max_length = int(input("define a max length : "))
 
     if mode2 == "single":
+        
+        if algorithm == "Automatically":
+            hash_length = len(target_hash)
+
+            if hash_length == 32:
+                algorithm = "md5"
+            elif hash_length == 40:
+                algorithm = "sha1"
+            elif hash_length == 56:
+                algorithm = "sha224"
+            elif hash_length == 64:
+                algorithm = "sha256"
+            elif hash_length == 96:
+                algorithm = "sha384"
+            elif hash_length == 128:
+                algorithm = "sha512"
+            else:
+                raise ValueError(f"Longueur de hash non reconnue: {hash_length}")
+        
         os.system('cls' if os.name == 'nt' else 'clear')
         print(graffiti)
         print("Method : Brute-Force\n")
@@ -178,7 +216,7 @@ def brute_force(target_hash, algorithm, categorie, mode2, directory2,
                 algorithm = "sha512"
             else:
                 raise ValueError(f"Longueur de hash non reconnue: {hash_length}")
-        
+
         os.system('cls' if os.name == 'nt' else 'clear')
         print(graffiti)
         print("Method : Brute-Force\n")

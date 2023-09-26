@@ -419,7 +419,7 @@ def choices(mode, mode2, categorie, algorithm, passwordlists, repertory):
                         print(f"found : {found_word.strip()}")
 
                     else:
-                        print("\nnot found in this list.")
+                        print("\not found in this list.")
 
                 elif mode2 == "multi":
                     target_hash = None

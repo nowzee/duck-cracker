@@ -22,7 +22,7 @@ def settings():
         print("catégories : ")
         print("1: hash")
 
-        categorie = input("select your categorie : ")
+        categorie = input("\nselect your categorie : ")
 
         if categorie == "1":
             categories = "hash"
@@ -34,7 +34,7 @@ def settings():
 
         print(graffiti)
 
-        if categorie == "2":
+        if categorie == "1":
             print("Select hash type :")
             print("0: Automatically search ")
             print("1: MD5")

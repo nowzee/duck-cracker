@@ -3,6 +3,7 @@ from tqdm import tqdm
 import os
 import string
 import itertools
+from module.rapport import rapports
 
 graffiti = r"""
     .___             __                                         __                 
@@ -125,6 +126,7 @@ def dictionary(target_hash, word_list, original_file, algorithm, categorie, mode
         os.system('cls' if os.name == 'nt' else 'clear')
         print(graffiti)
         print("Method : Dictionary\n")
+        print(f"dictionary used : {original_file}")
         print(f"mode : {mode2}")
         print(f"hash algorithm : {algorithm}")
         print(f"{categorie} : {target_hash}\n")
@@ -178,7 +180,7 @@ def dictionary(target_hash, word_list, original_file, algorithm, categorie, mode
         total_files = len(word_list)
         global_progress = 0
 
-        pbar2 = tqdm(total=total_files, desc="Overall progress", position=0, leave=False)
+        pbar2 = tqdm(total=total_files, desc="Search in progress", position=0, leave=False)
 
         with open(directory2, "r") as hash_file:
             repertory = [line.strip() for line in hash_file]
@@ -202,7 +204,7 @@ def dictionary(target_hash, word_list, original_file, algorithm, categorie, mode
             elif hash_length == 128:
                 algorithm = "sha512"
             else:
-                raise ValueError(f"Longueur de hash non reconnue: {hash_length}")
+                raise ValueError(f"Not recognized: {hash_length}")
 
         found_count = 0
         not_found_count = len(repertory)
@@ -210,6 +212,7 @@ def dictionary(target_hash, word_list, original_file, algorithm, categorie, mode
         os.system('cls' if os.name == 'nt' else 'clear')
         print(graffiti)
         print("Method : Dictionary\n")
+        print(f"dictionary used : {original_file}")
         print(f"mode : {mode2}")
         print(f"hash algorithm : {algorithm}")
 
@@ -249,12 +252,20 @@ def dictionary(target_hash, word_list, original_file, algorithm, categorie, mode
             for current_file in word_list:
                 if current_file != original_file:
                     os.remove(current_file)
-            return results
+
+            rapports(results, algorithm, mode2, found_count, not_found_count, original_file, methode="Dictionary")
+
+            print(f"Found : {found_count}"
+                  f"\nNot Found : {not_found_count}")
+
         except KeyboardInterrupt:
             for current_file in word_list:
                 if current_file != original_file:
                     os.remove(current_file)
-            return results
+            rapports(results, algorithm, mode2, found_count, not_found_count, original_file, methode="Dictionary")
+
+            print(f"Found : {found_count}"
+                  f"\nNot Found : {not_found_count}")
 
 
 def brute_force(target_hash, algorithm, categorie, mode2, directory2,
@@ -366,7 +377,10 @@ def brute_force(target_hash, algorithm, categorie, mode2, directory2,
                 break
 
         pbar.close()
-        return results
+        rapports(results, algorithm, mode2, found_count, not_found_count, original_file=None, methode="Brute-Force")
+
+        print(f"Found : {found_count}"
+              f"\nNot Found : {not_found_count}")
 
 
 def choices(mode, mode2, categorie, algorithm, passwordlists, repertory):
@@ -394,16 +408,7 @@ def choices(mode, mode2, categorie, algorithm, passwordlists, repertory):
                         print("\nnot found.")
                 elif mode2 == "multi":
                     target_hash = None
-                    found_word = brute_force(target_hash, algorithm, categorie, mode2, repertory)
-                    os.system('cls' if os.name == 'nt' else 'clear')
-                    print(graffiti)
-                    print("Method : Brute-force\n")
-                    print(f"hash algorithm : {algorithm}")
-                    for hashe, word in found_word.items():
-                        if word:
-                            print(f"{hashe} : {word}")
-                        else:
-                            print(f"{hashe} : not found")
+                    brute_force(target_hash, algorithm, categorie, mode2, repertory)
             elif mode == "dictionary":
                 word_list, original_file = load_wordlist(passwordlists)
 
@@ -423,19 +428,11 @@ def choices(mode, mode2, categorie, algorithm, passwordlists, repertory):
 
                 elif mode2 == "multi":
                     target_hash = None
-                    found_word = dictionary(target_hash, word_list, original_file, algorithm, categorie, mode2,
-                                            repertory)
-                    os.system('cls' if os.name == 'nt' else 'clear')
-                    print(graffiti)
-                    print("Method : dictionary\n")
-                    print(f"hash algorithm : {algorithm}")
-                    for hashe, word in found_word.items():
-                        if word:
-                            print(f"{hashe} : {word}")
-                        else:
-                            print(f"{hashe} : not found")
+                    dictionary(target_hash, word_list, original_file, algorithm, categorie, mode2, repertory)
 
-        elif categorie == "zip":
-            print("zip")
+
+
+
+
     except KeyboardInterrupt:
         exit()

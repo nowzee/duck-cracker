@@ -253,19 +253,20 @@ def dictionary(target_hash, word_list, original_file, algorithm, categorie, mode
                 if current_file != original_file:
                     os.remove(current_file)
 
-            rapports(results, algorithm, mode2, found_count, not_found_count, original_file, methode="Dictionary")
-
             print(f"Found : {found_count}"
                   f"\nNot Found : {not_found_count}")
+
+            rapports(results, algorithm, mode2, found_count, not_found_count, original_file, methode="Dictionary")
 
         except KeyboardInterrupt:
             for current_file in word_list:
                 if current_file != original_file:
                     os.remove(current_file)
-            rapports(results, algorithm, mode2, found_count, not_found_count, original_file, methode="Dictionary")
 
             print(f"Found : {found_count}"
                   f"\nNot Found : {not_found_count}")
+
+            rapports(results, algorithm, mode2, found_count, not_found_count, original_file, methode="Dictionary")
 
 
 def brute_force(target_hash, algorithm, categorie, mode2, directory2,
@@ -341,7 +342,7 @@ def brute_force(target_hash, algorithm, categorie, mode2, directory2,
             elif hash_length == 128:
                 algorithm = "sha512"
             else:
-                raise ValueError(f"Longueur de hash non reconnue: {hash_length}")
+                raise ValueError(f"not recognized: {hash_length}")
 
         os.system('cls' if os.name == 'nt' else 'clear')
         print(graffiti)
@@ -377,10 +378,10 @@ def brute_force(target_hash, algorithm, categorie, mode2, directory2,
                 break
 
         pbar.close()
-        rapports(results, algorithm, mode2, found_count, not_found_count, original_file=None, methode="Brute-Force")
 
         print(f"Found : {found_count}"
               f"\nNot Found : {not_found_count}")
+        rapports(results, algorithm, mode2, found_count, not_found_count, original_file=None, methode="Brute-Force")
 
 
 def choices(mode, mode2, categorie, algorithm, passwordlists, repertory):

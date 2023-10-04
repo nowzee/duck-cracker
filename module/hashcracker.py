@@ -233,7 +233,8 @@ def dictionary(target_hash, word_list, original_file, algorithm, categorie, mode
 
                 pbar3 = tqdm(total=len(words), desc="Search in progress", position=1, leave=False)
                 for word in words:
-                    if generate_hash(word.strip(), algorithm) in results and results[generate_hash(word.strip(), algorithm)] is None:
+                    if generate_hash(word.strip(), algorithm) in results and results[
+                        generate_hash(word.strip(), algorithm)] is None:
                         results[generate_hash(word.strip(), algorithm)] = word.strip()
                         found_count += 1
                         not_found_count -= 1
@@ -435,10 +436,6 @@ def choices(mode, mode2, categorie, algorithm, passwordlists, repertory):
                 elif mode2 == "multi":
                     target_hash = None
                     dictionary(target_hash, word_list, original_file, algorithm, categorie, mode2, repertory)
-
-
-
-
 
     except KeyboardInterrupt:
         exit()

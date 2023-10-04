@@ -246,6 +246,12 @@ def dictionary(target_hash, word_list, original_file, algorithm, categorie, mode
                                 os.remove(current_file)
                         pbar2.close()
                         pbar3.close()
+
+                        print(f"Found : {found_count}"
+                              f"\nNot Found : {not_found_count}")
+
+                        rapports(results, algorithm, mode2, found_count, not_found_count, original_file,
+                                 methode="Dictionary")
                         return results
                     pbar3.update()
 

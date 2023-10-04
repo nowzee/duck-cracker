@@ -180,7 +180,7 @@ def dictionary(target_hash, word_list, original_file, algorithm, categorie, mode
         total_files = len(word_list)
         global_progress = 0
 
-        pbar2 = tqdm(total=total_files, desc="Search in progress", position=0, leave=False)
+        pbar2 = tqdm(total=total_files, desc="total file", position=0, leave=False)
 
         with open(directory2, "r") as hash_file:
             repertory = [line.strip() for line in hash_file]
@@ -214,7 +214,7 @@ def dictionary(target_hash, word_list, original_file, algorithm, categorie, mode
         print("Method : Dictionary\n")
         print(f"dictionary used : {original_file}")
         print(f"mode : {mode2}")
-        print(f"hash algorithm : {algorithm}")
+        print(f"hash algorithm : {algorithm}\n")
 
         pbar2.set_postfix(found=f"{found_count}", not_found=f"{not_found_count}")
         try:
@@ -231,22 +231,27 @@ def dictionary(target_hash, word_list, original_file, algorithm, categorie, mode
                         progress.update(len(data) * 2048)
                     progress.close()
 
+                pbar3 = tqdm(total=len(words), desc="Search in progress", position=1, leave=False)
                 for word in words:
                     if generate_hash(word.strip(), algorithm) in results and results[generate_hash(word.strip(), algorithm)] is None:
                         results[generate_hash(word.strip(), algorithm)] = word.strip()
                         found_count += 1
                         not_found_count -= 1
+                        pbar3.update()
                         pbar2.set_postfix(found=f"{found_count}", not_found=f"{not_found_count}")
                     if found_count == len(repertory):
                         for current_file in word_list:
                             if current_file != original_file:
                                 os.remove(current_file)
                         pbar2.close()
+                        pbar3.close()
                         return results
+                    pbar3.update()
 
                 global_progress += 1
                 pbar2.set_description(f"Processed {file_idx}/{total_files} files")
                 pbar2.update(1)
+                pbar3.close()
 
             pbar2.close()
             for current_file in word_list:
@@ -349,7 +354,7 @@ def brute_force(target_hash, algorithm, categorie, mode2, directory2,
         print("Method : Brute-Force\n")
         print(f"Max length : {max_length}")
         print(f"mode : {mode2}")
-        print(f"hash algorithm : {algorithm}")
+        print(f"hash algorithm : {algorithm}\n")
 
         found_count = 0
         not_found_count = len(repertory)

@@ -1,6 +1,6 @@
 # duck-cracker
 ### Crack your hash
-**I created this program just for me XD**
+**For script kiddie ;)**
 
 ## **I specify that the code is not yet factorized and that certain things are missing but the main function of the hash works.**
 
